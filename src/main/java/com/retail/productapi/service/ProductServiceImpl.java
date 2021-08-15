@@ -1,6 +1,7 @@
 package com.retail.productapi.service;
 
 import com.jayway.jsonpath.JsonPath;
+import com.retail.productapi.model.Price;
 import com.retail.productapi.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ExternalApiService externalApiService;
 
+    @Autowired
+    private PriceService priceService;
+
     @Value("${redsky.domain.url}")
     private String redskyDomainUrl;
 
@@ -29,8 +33,24 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Override
-    public Product getProductInfo(Long productId) {
+    public Product getProductWithPrice(Long productId) {
+        Product productResponse = getProduct(productId);
+        if (productResponse != null)
+            productResponse.setPrice(priceService.getPrice(productId));
+        return productResponse;
+    }
 
+    @Override
+    public Product updatePriceByProductId(Long productId, Product product) {
+        Product productResponse = getProduct(productId);
+        if (productResponse != null) {
+            Price priceResponse = priceService.updatePrice(productId, new Price(product.getPrice().getPrice(), product.getPrice().getCurrencyCode()));
+            productResponse.setPrice(priceResponse);
+        }
+        return productResponse;
+    }
+
+    public Product getProduct(Long productId) {
         CompletableFuture<String> completableFuture = externalApiService.getExternalApiResponse(redskyDomainUrl + pdpPathUrl + productId.toString() + pdpQueryParams, String.class);
         String productApiResponse = null;
         try {
@@ -49,5 +69,6 @@ public class ProductServiceImpl implements ProductService {
 
         return productResponse;
     }
+
 
 }
