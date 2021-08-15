@@ -39,13 +39,36 @@ public class ProductController {
             @ApiResponse(code = 500, message = "Internal Server Error")})
 
     @ApiOperation(value = "Retrieve Product and Price details by Product Id")
-    ResponseEntity<Product> getProductInfo(@PathVariable Long productId) {
+    ResponseEntity<Product> getProductWithPrice(@PathVariable Long productId) {
 
-        Product product = productService.getProductInfo(productId);
+        Product product = productService.getProductWithPrice(productId);
 
         ResponseEntity<Product> responseEntity = null;
         if (product != null) {
             responseEntity = new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            logger.info("getProductInfo(), Product not found for id - ", productId);
+            responseEntity = new ResponseEntity("Product not found for the Id - " + productId, HttpStatus.NOT_FOUND);
+        }
+
+        return responseEntity;
+    }
+
+    @PutMapping(path = "/products/{productId}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 404, message = "Product Not found"),
+            @ApiResponse(code = 500, message = "Internal Server Error")})
+
+    @ApiOperation(value = "Update Price details based on Product Id")
+    ResponseEntity<Product> updatePriceForProduct(@PathVariable Long productId, @RequestBody Product product) {
+
+        Product productResponse = productService.updatePriceByProductId(productId, product);
+
+        ResponseEntity<Product> responseEntity = null;
+        if (product != null) {
+            responseEntity = new ResponseEntity<>(productResponse, HttpStatus.OK);
         } else {
             logger.info("getProductInfo(), Product not found for id - ", productId);
             responseEntity = new ResponseEntity("Product not found for the Id - " + productId, HttpStatus.NOT_FOUND);

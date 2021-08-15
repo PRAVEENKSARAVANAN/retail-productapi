@@ -1,20 +1,16 @@
 package com.retail.productapi.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class Product {
 
-    private long id;
+    private Long id;
 
     private String name;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @JsonProperty("current_price")
+    private Price price;
 
 }

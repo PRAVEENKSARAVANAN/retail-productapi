@@ -20,17 +20,17 @@ repositories {
 
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator:2.5.3'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.5.3'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'com.jayway.jsonpath:json-path:2.6.0'
+	implementation 'org.springframework.data:spring-data-cassandra:3.2.3'
+	implementation 'com.google.code.gson:gson:2.8.7'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.5.3'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
 test {
