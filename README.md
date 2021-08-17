@@ -15,7 +15,7 @@ LAUNCH CASSANDRA
 
 In new tab, Execute `cqlsh` to connect to the cassandra server.
 
-Following are the cassandra queries to execute before the start of project.
+Following are the cassandra queries that should be executed before the start of project.
 
 `create keyspace test with replication={'class':'SimpleStrategy', 'replication_factor':1};`
 

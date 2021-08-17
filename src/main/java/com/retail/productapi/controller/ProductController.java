@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "/api/v1", produces = "application/json", consumes = "application/json")
 public class ProductController {
 
-    @Autowired
     private ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
@@ -67,7 +71,7 @@ public class ProductController {
         Product productResponse = productService.updatePriceByProductId(productId, product);
 
         ResponseEntity<Product> responseEntity = null;
-        if (product != null) {
+        if (productResponse != null) {
             responseEntity = new ResponseEntity<>(productResponse, HttpStatus.OK);
         } else {
             logger.info("getProductInfo(), Product not found for id - ", productId);

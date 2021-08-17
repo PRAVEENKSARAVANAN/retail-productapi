@@ -15,8 +15,11 @@ import java.util.Optional;
 @Service
 public class PriceServiceImpl implements PriceService {
 
-    @Autowired
     private PriceDao priceDao;
+
+    public PriceServiceImpl(PriceDao priceDao) {
+        this.priceDao = priceDao;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(PriceServiceImpl.class);
 
