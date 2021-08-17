@@ -18,6 +18,10 @@ public class Price {
     @Column(value = "currencyCode")
     private String currencyCode;
 
+    public Price(){
+        super();
+    }
+
     public Price(Long id, Double price, String currencyCode) {
         this.id = id;
         this.price = price;

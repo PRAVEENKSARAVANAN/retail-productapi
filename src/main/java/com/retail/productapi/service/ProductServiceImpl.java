@@ -15,20 +15,27 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
     private ExternalApiService externalApiService;
 
-    @Autowired
     private PriceService priceService;
 
-    @Value("${redsky.domain.url}")
     private String redskyDomainUrl;
 
-    @Value("${redsky.pdp.path.url}")
     private String pdpPathUrl;
 
-    @Value("${redsky.pdp.url.params}")
     private String pdpQueryParams;
+
+    @Autowired
+    public ProductServiceImpl(ExternalApiService externalApiService, PriceService priceService,
+                              @Value("${redsky.domain.url}") String redskyDomainUrl,
+                              @Value("${redsky.pdp.path.url}") String pdpPathUrl,
+                              @Value("${redsky.pdp.url.params}") String pdpQueryParams) {
+        this.externalApiService = externalApiService;
+        this.priceService = priceService;
+        this.redskyDomainUrl = redskyDomainUrl;
+        this.pdpPathUrl = pdpPathUrl;
+        this.pdpQueryParams = pdpQueryParams;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
@@ -44,13 +51,13 @@ public class ProductServiceImpl implements ProductService {
     public Product updatePriceByProductId(Long productId, Product product) {
         Product productResponse = getProduct(productId);
         if (productResponse != null) {
-            Price priceResponse = priceService.updatePrice(productId, new Price(product.getPrice().getPrice(), product.getPrice().getCurrencyCode()));
+            Price priceResponse = priceService.updatePrice(productId, product.getPrice());
             productResponse.setPrice(priceResponse);
         }
         return productResponse;
     }
 
-    public Product getProduct(Long productId) {
+    private Product getProduct(Long productId) {
         CompletableFuture<String> completableFuture = externalApiService.getExternalApiResponse(redskyDomainUrl + pdpPathUrl + productId.toString() + pdpQueryParams, String.class);
         String productApiResponse = null;
         try {
