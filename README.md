@@ -1,4 +1,19 @@
-# Getting Started
+# Introduction
+
+Repository that holds the product API source code that fetches product information from external source and fetch price information from the Database.
+
+---
+
+## Technology Stack
+
+* Java 11
+* SpringBoot
+* Gradle
+* Cassandra
+
+---
+
+# Application Setup
 
 #### Follow the steps below to run this project in your Local Machine
 
@@ -23,13 +38,32 @@ Following are the cassandra queries that should be executed before the start of 
 
 `CREATE TABLE productPrice(id bigint PRIMARY KEY, price double, currencyCode text);`
 
-`INSERT INTO productPrice(id, price, currencyCode) values (13860428, 12.99,'USD');`
+`INSERT INTO productPrice(id, price, currencyCode) values (13860428, 13.49,'USD');`
 
 
 ---
 
-### Step : 2 - Run the App
+### Step : 2 - Clone the Repo
 
+`git clone https://github.com/PRAVEENKSARAVANAN/retail-productapi.git`
+
+---
+
+### Step : 3 - Run the App
+
+Run `./gradlew bootRun` from the Project Path
+
+---
+
+## Swagger Endpoint
+
+http://localhost:8080/swagger-ui/
+
+---
+
+## Test the App using Swagger
+
+http://localhost:8080/swagger-ui/
 
 ---
 
@@ -39,8 +73,6 @@ For further reference, please consider the following sections:
 
 * [Official Gradle documentation](https://docs.gradle.org)
 * [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.5.3/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.5.3/gradle-plugin/reference/html/#build-image)
-* [Spring Data MongoDB](https://docs.spring.io/spring-boot/docs/2.5.3/reference/htmlsingle/#boot-features-mongodb)
 * [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.5.3/reference/htmlsingle/#using-boot-devtools)
 * [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/2.5.3/reference/htmlsingle/#production-ready)
 * [Spring Configuration Processor](https://docs.spring.io/spring-boot/docs/2.5.3/reference/htmlsingle/#configuration-metadata-annotation-processor)
@@ -49,7 +81,6 @@ For further reference, please consider the following sections:
 ### Guides
 The following guides illustrate how to use some features concretely:
 
-* [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb/)
 * [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
 * [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
