@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @PropertySources({

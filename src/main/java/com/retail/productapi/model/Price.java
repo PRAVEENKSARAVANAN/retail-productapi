@@ -3,6 +3,9 @@ package com.retail.productapi.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+/**
+ * Model Object for the Price
+ */
 @Data
 public class Price {
 
