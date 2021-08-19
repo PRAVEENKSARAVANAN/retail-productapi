@@ -2,6 +2,7 @@ package com.retail.productapi.controller;
 
 import com.retail.productapi.model.Product;
 import com.retail.productapi.service.ProductService;
+import com.retail.productapi.validator.ProductRequestValidator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -25,9 +26,12 @@ public class ProductController {
 
     private ProductService productService;
 
+    private ProductRequestValidator productRequestValidator;
+
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductRequestValidator productRequestValidator) {
         this.productService = productService;
+        this.productRequestValidator = productRequestValidator;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
@@ -82,14 +86,20 @@ public class ProductController {
     @ApiOperation(value = "Update Price details based on Product Id")
     ResponseEntity<Product> updatePriceForProduct(@PathVariable Long productId, @RequestBody Product product) {
 
-        Product productResponse = productService.updatePriceByProductId(productId, product);
-
         ResponseEntity<Product> responseEntity = null;
-        if (productResponse != null) {
-            responseEntity = new ResponseEntity<>(productResponse, HttpStatus.OK);
+
+        if(productRequestValidator.isValidRequest(productId, product)) {
+            Product productResponse = productService.updatePriceByProductId(productId, product);
+
+            if (productResponse != null) {
+                responseEntity = new ResponseEntity<>(productResponse, HttpStatus.OK);
+            } else {
+                logger.info("getProductInfo(), Product not found for id - ", productId);
+                responseEntity = new ResponseEntity("Product not found for the Id - " + productId, HttpStatus.NOT_FOUND);
+            }
         } else {
-            logger.info("getProductInfo(), Product not found for id - ", productId);
-            responseEntity = new ResponseEntity("Product not found for the Id - " + productId, HttpStatus.NOT_FOUND);
+            logger.error("Update Price For the Product , Error : Invalid request = {}", product);
+            responseEntity = new ResponseEntity("Bad Request", HttpStatus.BAD_REQUEST);
         }
 
         return responseEntity;

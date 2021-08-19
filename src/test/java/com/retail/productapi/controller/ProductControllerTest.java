@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.retail.productapi.model.Price;
 import com.retail.productapi.model.Product;
 import com.retail.productapi.service.ExternalApiService;
-import com.retail.productapi.service.PriceService;
 import com.retail.productapi.service.ProductService;
+import com.retail.productapi.validator.ProductRequestValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,16 +31,15 @@ import static org.mockito.Mockito.when;
 class ProductControllerTest {
 
 
-
     @Autowired
     private MockMvc mockMvc;
 
     private Product product;
     private Price price;
     private ProductService productService;
-    private PriceService priceService;
-    @Autowired
     private ProductController productController;
+    private ProductRequestValidator productRequestValidator;
+
 
     private ExternalApiService externalApiService;
     private String apiResponse = null;
@@ -50,6 +49,7 @@ class ProductControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
     }
+
     protected <T> T mapFromJson(String json, Class<T> clazz)
             throws JsonParseException, JsonMappingException, IOException {
 
@@ -69,7 +69,7 @@ class ProductControllerTest {
         when(productService.getProductWithPrice(Long.valueOf(13860428))).
                 thenReturn(product);
 
-        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/"+productId.longValue())
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/products/" + productId.longValue())
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
         int status = mvcResult.getResponse().getStatus();
@@ -88,7 +88,7 @@ class ProductControllerTest {
         //externalApiService = mock(ExternalApiServiceImpl.class);
 
         //productService = new ProductServiceImpl(externalApiService, priceService,
-                //"redskyUrl", "pdpUrl", "queryParam");
+        //"redskyUrl", "pdpUrl", "queryParam");
         productService = mock(ProductService.class);
         // Price Object
         price = new Price();
@@ -100,7 +100,7 @@ class ProductControllerTest {
         product.setId(Long.valueOf("1234"));
         product.setPrice(price);
 
-        productController = new ProductController(productService);
+        productController = new ProductController(productService, productRequestValidator);
     }
 
     @Test
@@ -131,10 +131,11 @@ class ProductControllerTest {
     void updatePriceForProduct() {
         // setuo
         when(productService.updatePriceByProductId(Long.valueOf("1234"), product)).thenReturn(product);
+        when(productRequestValidator.isValidRequest(Long.valueOf("1234"), product)).thenReturn(true);
         ResponseEntity<Product> expectedResponseEntity = new ResponseEntity<>(product, HttpStatus.OK);
 
         //test
-        ResponseEntity<Product> productResponseEntity = productController.updatePriceForProduct(Long.valueOf("1234"),product);
+        ResponseEntity<Product> productResponseEntity = productController.updatePriceForProduct(Long.valueOf("1234"), product);
         Assertions.assertEquals(expectedResponseEntity.getStatusCode(), productResponseEntity.getStatusCode());
 
     }
@@ -143,10 +144,11 @@ class ProductControllerTest {
     void updatePriceForInvalidProduct() {
         // setuo
         when(productService.updatePriceByProductId(Long.valueOf("12345"), product)).thenReturn(null);
+        when(productRequestValidator.isValidRequest(Long.valueOf("1234"), product)).thenReturn(true);
         ResponseEntity<Product> expectedResponseEntity = new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
         //test
-        ResponseEntity<Product> productResponseEntity = productController.updatePriceForProduct(Long.valueOf("1234"),product);
+        ResponseEntity<Product> productResponseEntity = productController.updatePriceForProduct(Long.valueOf("1234"), product);
         Assertions.assertEquals(expectedResponseEntity.getStatusCode(), productResponseEntity.getStatusCode());
     }
 }
