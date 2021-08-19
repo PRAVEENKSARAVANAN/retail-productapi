@@ -26,6 +26,7 @@ If you use a Mac with Homebrew, you can run the following command
 `$ brew install cassandra`
 
 LAUNCH CASSANDRA
+
 `$ cassandra -f`
 
 In new tab, Execute `cqlsh` to connect to the cassandra server.
