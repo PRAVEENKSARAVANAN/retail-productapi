@@ -17,6 +17,11 @@ import java.util.ArrayList;
 @Configuration
 public class SwaggerConfig {
 
+    /**
+     * Swagger UI Configuration
+     *
+     * @return
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -27,8 +32,11 @@ public class SwaggerConfig {
                 .apiInfo(metaData());
     }
 
-    /*
+
+    /**
      * Meta data for Swagger UI API Documentation
+     *
+     * @return
      */
     ApiInfo metaData(){
 

@@ -26,7 +26,7 @@ class ProductServiceImplTest {
         priceService = mock(PriceServiceImpl.class);
         externalApiService = mock(ExternalApiServiceImpl.class);
         productService = new ProductServiceImpl(externalApiService, priceService,
-                "redskyUrl", "pdpUrl", "queryParam");
+                "redskyUrl", "pdpUrl", "queryParam", "$.product.item.product_description.title");
         apiResponse = "{\n" +
                 "product: {\n" +
                 "item: {\n" +

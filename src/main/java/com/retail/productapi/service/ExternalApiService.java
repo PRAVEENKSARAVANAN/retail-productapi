@@ -1,7 +1,6 @@
 package com.retail.productapi.service;
 
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.web.client.RestClientException;
 
 import java.util.concurrent.CompletableFuture;
 

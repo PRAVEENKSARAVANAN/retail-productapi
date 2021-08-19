@@ -13,6 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ *
+ * Controller Class for the Product API's
+ *
+ */
 @RestController
 @RequestMapping("/api/v1")
 @Api(value = "/api/v1", produces = "application/json", consumes = "application/json")
@@ -29,7 +34,7 @@ public class ProductController {
 
     /**
      * Method used to fetch Product Information from External API & retrieve price info for the same product
-     * from No-SQL Db.
+     * from Db.
      *
      * @param productId
      * @return
@@ -58,6 +63,15 @@ public class ProductController {
         return responseEntity;
     }
 
+
+    /**
+     *
+     * Method used to update price object using the productId and the input Object.
+     *
+     * @param productId
+     * @param product
+     * @return
+     */
     @PutMapping(path = "/products/{productId}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),

@@ -19,6 +19,8 @@ public class AppConfig {
 
     /**
      *
+     * Build RestTemplate for invoking external API
+     *
      * @return
      */
     @Bean

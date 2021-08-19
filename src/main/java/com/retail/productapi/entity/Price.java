@@ -5,6 +5,10 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
+/**
+ * Database Entity Object
+ *
+ */
 @Table(value = "productPrice")
 @Data
 public class Price {
