@@ -72,6 +72,18 @@ http://localhost:8080/swagger-ui/
 #### Product Id - `13860428`
 
 ---
+### Test using Curl commands
+
+
+#### GET - Fetch Product Info along with Price
+`curl -X GET "http://localhost:8080/api/v1/products/13860428" -H "accept: */*"`
+
+---
+#### PUT - Update Price Info using Product Id:
+
+`curl -X PUT "http://localhost:8080/api/v1/products/13860428" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"id\": 13860428, \"name\": \"The Big Lebowski (Blu-ray)\", \"current_price\": { \"value\": 13.49, \"currency_code\": \"USD\" }}"`
+
+---
 
 
 ### Reference Documentation
